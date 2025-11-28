@@ -1,0 +1,68 @@
+# FastAPI & ASGI
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Database
+sqlalchemy
+psycopg2
+alembic
+
+# Authentication & Security
+python-jose[cryptography]
+passlib[bcrypt]
+pydantic-settings
+python-dotenv
+cryptography
+
+# Data Validation
+pydantic
+email-validator
+
+# Machine Learning
+scikit-learn
+xgboost
+numpy
+pandas
+
+# NLP & Deep Learning
+transformers
+torch
+nltk
+
+# Image Processing
+pillow
+opencv-python
+
+# URL & Email Processing
+requests
+httpx
+validators
+tldextract
+
+# Async & Caching
+celery
+redis
+aioredis
+
+# Monitoring & Logging
+prometheus-client
+python-json-logger
+sentry-sdk
+
+# Testing
+pytest
+pytest-asyncio
+pytest-cov
+faker
+
+# Development
+black
+flake8
+isort
+pylint
+pre-commit
+
+# Utilities
+python-dateutil
+pytz
