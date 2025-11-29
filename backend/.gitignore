@@ -106,3 +106,7 @@ media/
 # Cache
 .cache/
 *.cache
+
+data/raw/
+data/processed/
+data/splits/
