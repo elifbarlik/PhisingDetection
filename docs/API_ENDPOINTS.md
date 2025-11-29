@@ -1,39 +1,44 @@
 # 🔌 API Endpoints Reference
 
 ## Base URL
+
 ```
 http://localhost:8000/api/v1
 ```
 
 ## Authentication Endpoints
 
-### 1. User Registration
+### 1\. User Registration
+
 ```
 POST /auth/register
 ```
 
 **Request:**
+
 ```json
 {
   "email": "user@example.com",
-  "password": "secure_password",
-  "first_name": "John",
-  "last_name": "Doe"
+  "password": "secure\\\_password",
+  "first\\\_name": "John",
+  "last\\\_name": "Doe"
 }
 ```
 
 **Response (201 Created):**
+
 ```json
 {
   "id": 1,
   "email": "user@example.com",
-  "first_name": "John",
-  "last_name": "Doe",
-  "created_at": "2024-01-15T10:30:00Z"
+  "first\\\_name": "John",
+  "last\\\_name": "Doe",
+  "created\\\_at": "2024-01-15T10:30:00Z"
 }
 ```
 
 **Error (400):**
+
 ```json
 {
   "detail": "Email already exists"
@@ -42,62 +47,71 @@ POST /auth/register
 
 ---
 
-### 2. User Login
+### 2\. User Login
+
 ```
 POST /auth/login
 ```
 
 **Request:**
+
 ```json
 {
   "email": "user@example.com",
-  "password": "secure_password"
+  "password": "secure\\\_password"
 }
 ```
 
 **Response (200 OK):**
+
 ```json
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIs...",
-  "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
-  "token_type": "bearer",
-  "expires_in": 3600
+  "access\\\_token": "eyJhbGciOiJIUzI1NiIs...",
+  "refresh\\\_token": "eyJhbGciOiJIUzI1NiIs...",
+  "token\\\_type": "bearer",
+  "expires\\\_in": 3600
 }
 ```
 
 ---
 
-### 3. Token Refresh
+### 3\. Token Refresh
+
 ```
 POST /auth/refresh
 ```
 
 **Request Headers:**
+
 ```
-Authorization: Bearer {refresh_token}
+Authorization: Bearer {refresh\\\_token}
 ```
 
 **Response (200 OK):**
+
 ```json
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIs...",
-  "expires_in": 3600
+  "access\\\_token": "eyJhbGciOiJIUzI1NiIs...",
+  "expires\\\_in": 3600
 }
 ```
 
 ---
 
-### 4. Logout
+### 4\. Logout
+
 ```
 POST /auth/logout
 ```
 
 **Request Headers:**
+
 ```
-Authorization: Bearer {access_token}
+Authorization: Bearer {access\\\_token}
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "message": "Successfully logged out"
@@ -108,35 +122,40 @@ Authorization: Bearer {access_token}
 
 ## Email Analysis Endpoints
 
-### 5. Analyze Email
+### 5\. Analyze Email
+
 ```
 POST /analyze/email
 ```
 
 **Request Headers:**
+
 ```
-Authorization: Bearer {access_token}
+Authorization: Bearer {access\\\_token}
 Content-Type: multipart/form-data
 ```
 
 **Request Body (Form Data):**
+
 ```
-email_file: <.eml file or raw email text>
+email\\\_file: <.eml file or raw email text>
 OR
-raw_email: "From: sender@example.com\nTo: recipient@example.com\n..."
+raw\\\_email: "From: sender@example.com\\\\nTo: recipient@example.com\\\\n..."
 ```
 
 **Response (202 Accepted):**
+
 ```json
 {
   "id": 101,
   "status": "processing",
   "message": "Email is being analyzed",
-  "estimated_time_ms": 500
+  "estimated\\\_time\\\_ms": 500
 }
 ```
 
 **Response After Completion (GET /analyze/email/{id}):**
+
 ```json
 {
   "id": 101,
@@ -144,56 +163,59 @@ raw_email: "From: sender@example.com\nTo: recipient@example.com\n..."
     "id": 50,
     "sender": "noreply@suspicious-bank.com",
     "subject": "Verify Your Account",
-    "received_at": "2024-01-15T10:30:00Z"
+    "received\\\_at": "2024-01-15T10:30:00Z"
   },
   "analysis": {
     "id": 101,
-    "risk_score": 0.87,
-    "risk_level": "HIGH",
+    "risk\\\_score": 0.87,
+    "risk\\\_level": "HIGH",
     "confidence": 0.92,
     "explanation": {
       "summary": "This email shows strong indicators of phishing attack",
-      "risk_factors": [
+      "risk\\\_factors": \\\[
         "Domain not authenticated (SPF failed)",
         "Urgency keywords in subject line",
         "Links point to suspicious domain"
       ],
-      "safe_indicators": [
+      "safe\\\_indicators": \\\[
         "No executable attachments"
       ]
     },
     "features": {
-      "sender_features": {...},
-      "header_features": {...},
-      "subject_features": {...},
-      "body_features": {...}
+      "sender\\\_features": {...},
+      "header\\\_features": {...},
+      "subject\\\_features": {...},
+      "body\\\_features": {...}
     },
-    "suspicious_links": [
+    "suspicious\\\_links": \\\[
       {
         "url": "https://suspicious-bank.com/verify",
         "reputation": 0.15,
         "malicious": true
       }
     ],
-    "created_at": "2024-01-15T10:31:00Z",
-    "processing_time_ms": 245
+    "created\\\_at": "2024-01-15T10:31:00Z",
+    "processing\\\_time\\\_ms": 245
   }
 }
 ```
 
 ---
 
-### 6. Get Analysis Result
+### 6\. Get Analysis Result
+
 ```
 GET /analyze/{id}
 ```
 
 **Request Headers:**
+
 ```
-Authorization: Bearer {access_token}
+Authorization: Bearer {access\\\_token}
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "id": 101,
@@ -204,40 +226,43 @@ Authorization: Bearer {access_token}
 
 ---
 
-### 7. List Analysis History
+### 7\. List Analysis History
+
 ```
-GET /analyze/history?page=1&limit=20&risk_level=HIGH&sort_by=created_at
+GET /analyze/history?page=1\\\&limit=20\\\&risk\\\_level=HIGH\\\&sort\\\_by=created\\\_at
 ```
 
 **Query Parameters:**
-- `page`: Page number (default: 1)
-- `limit`: Items per page (default: 20, max: 100)
-- `risk_level`: Filter by HIGH, MEDIUM, LOW
-- `sort_by`: created_at, risk_score (default: created_at)
-- `sort_order`: asc, desc (default: desc)
-- `from_date`: ISO date filter
-- `to_date`: ISO date filter
+
+* `page`: Page number (default: 1)
+* `limit`: Items per page (default: 20, max: 100)
+* `risk\\\_level`: Filter by HIGH, MEDIUM, LOW
+* `sort\\\_by`: created\_at, risk\_score (default: created\_at)
+* `sort\\\_order`: asc, desc (default: desc)
+* `from\\\_date`: ISO date filter
+* `to\\\_date`: ISO date filter
 
 **Response (200 OK):**
+
 ```json
 {
   "total": 245,
   "page": 1,
   "limit": 20,
-  "total_pages": 13,
-  "data": [
+  "total\\\_pages": 13,
+  "data": \\\[
     {
       "id": 105,
       "email": {
         "sender": "attacker@example.com",
         "subject": "Urgent: Update Payment",
-        "received_at": "2024-01-15T11:00:00Z"
+        "received\\\_at": "2024-01-15T11:00:00Z"
       },
       "analysis": {
-        "risk_score": 0.95,
-        "risk_level": "HIGH",
+        "risk\\\_score": 0.95,
+        "risk\\\_level": "HIGH",
         "confidence": 0.98,
-        "created_at": "2024-01-15T11:01:00Z"
+        "created\\\_at": "2024-01-15T11:01:00Z"
       }
     }
     // ... more results
@@ -247,40 +272,47 @@ GET /analyze/history?page=1&limit=20&risk_level=HIGH&sort_by=created_at
 
 ---
 
-### 8. Delete Analysis
+### 8\. Delete Analysis
+
 ```
 DELETE /analyze/{id}
 ```
 
 **Request Headers:**
+
 ```
-Authorization: Bearer {access_token}
+Authorization: Bearer {access\\\_token}
 ```
 
 **Response (204 No Content):**
+
 ```
 (empty body)
 ```
 
 ---
 
-### 9. Batch Email Analysis
+### 9\. Batch Email Analysis
+
 ```
 POST /analyze/batch/emails
 ```
 
 **Request Headers:**
+
 ```
-Authorization: Bearer {access_token}
+Authorization: Bearer {access\\\_token}
 Content-Type: multipart/form-data
 ```
 
 **Request Body:**
+
 ```
-csv_file: <file with emails>
+csv\\\_file: <file with emails>
 ```
 
 **CSV Format:**
+
 ```
 sender,subject,body
 sender@example.com,"Verify account","Click here..."
@@ -288,10 +320,11 @@ noreply@bank.com,"Security alert","Your account..."
 ```
 
 **Response (202 Accepted):**
+
 ```json
 {
-  "batch_id": "batch_abc123",
-  "total_emails": 100,
+  "batch\\\_id": "batch\\\_abc123",
+  "total\\\_emails": 100,
   "status": "processing",
   "progress": {
     "processed": 0,
@@ -304,18 +337,21 @@ noreply@bank.com,"Security alert","Your account..."
 
 ## URL Analysis Endpoints
 
-### 10. Analyze Single URL
+### 10\. Analyze Single URL
+
 ```
 POST /analyze/url
 ```
 
 **Request Headers:**
+
 ```
-Authorization: Bearer {access_token}
+Authorization: Bearer {access\\\_token}
 Content-Type: application/json
 ```
 
 **Request Body:**
+
 ```json
 {
   "url": "https://suspicious-bank.com/verify"
@@ -323,61 +359,64 @@ Content-Type: application/json
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "id": 200,
   "url": "https://suspicious-bank.com/verify",
   "domain": "suspicious-bank.com",
   "reputation": {
-    "reputation_score": 0.15,
-    "is_malicious": true,
+    "reputation\\\_score": 0.15,
+    "is\\\_malicious": true,
     "sources": {
       "virusTotal": {
-        "malicious_vendors": 45,
-        "suspicious_vendors": 12,
-        "clean_vendors": 3
+        "malicious\\\_vendors": 45,
+        "suspicious\\\_vendors": 12,
+        "clean\\\_vendors": 3
       },
       "urlhaus": {
-        "threat_type": "phishing",
-        "payload": "credential_harvester"
+        "threat\\\_type": "phishing",
+        "payload": "credential\\\_harvester"
       },
       "phishTank": {
         "verified": true,
-        "phish_id": "5123456"
+        "phish\\\_id": "5123456"
       }
     }
   },
   "ssl": {
     "valid": false,
-    "certificate_data": {
+    "certificate\\\_data": {
       "issuer": "Unknown",
-      "valid_until": "2024-12-31"
+      "valid\\\_until": "2024-12-31"
     }
   },
   "analysis": {
-    "structure_analysis": {
-      "has_at_symbol": false,
-      "subdomain_count": 1,
-      "uses_ip": false
+    "structure\\\_analysis": {
+      "has\\\_at\\\_symbol": false,
+      "subdomain\\\_count": 1,
+      "uses\\\_ip": false
     },
-    "typosquatting_score": 0.8,
-    "last_checked": "2024-01-15T10:30:00Z"
+    "typosquatting\\\_score": 0.8,
+    "last\\\_checked": "2024-01-15T10:30:00Z"
   },
-  "created_at": "2024-01-15T10:31:00Z"
+  "created\\\_at": "2024-01-15T10:31:00Z"
 }
 ```
 
 ---
 
-### 11. Batch URL Analysis
+### 11\. Batch URL Analysis
+
 ```
 POST /analyze/urls/batch
 ```
 
 **Request:**
+
 ```json
 {
-  "urls": [
+  "urls": \\\[
     "https://example.com",
     "https://suspicious.com",
     "https://malicious.net"
@@ -386,37 +425,41 @@ POST /analyze/urls/batch
 ```
 
 **Response (202 Accepted):**
+
 ```json
 {
-  "batch_id": "batch_url_123",
+  "batch\\\_id": "batch\\\_url\\\_123",
   "urls": 3,
   "status": "processing"
 }
 ```
 
 **Get Batch Results:**
+
 ```
-GET /analyze/batch/{batch_id}
+GET /analyze/batch/{batch\\\_id}
 ```
 
 ---
 
-### 12. URL History
+### 12\. URL History
+
 ```
 GET /analyze/urls/history?limit=20
 ```
 
 **Response:**
+
 ```json
 {
   "total": 150,
-  "data": [
+  "data": \\\[
     {
       "id": 200,
       "url": "https://suspicious.com",
-      "reputation_score": 0.25,
-      "is_malicious": true,
-      "last_checked": "2024-01-15T10:30:00Z"
+      "reputation\\\_score": 0.25,
+      "is\\\_malicious": true,
+      "last\\\_checked": "2024-01-15T10:30:00Z"
     }
     // ... more results
   ]
@@ -427,47 +470,51 @@ GET /analyze/urls/history?limit=20
 
 ## Attachment Analysis Endpoints
 
-### 13. Analyze Attachment
+### 13\. Analyze Attachment
+
 ```
 POST /analyze/attachment
 ```
 
 **Request Headers:**
+
 ```
-Authorization: Bearer {access_token}
+Authorization: Bearer {access\\\_token}
 Content-Type: multipart/form-data
 ```
 
 **Request Body:**
+
 ```
 file: <binary file>
-email_id: 50 (optional)
+email\\\_id: 50 (optional)
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "id": 300,
   "filename": "document.pdf",
-  "file_type": "pdf",
-  "file_size": 2048576,
+  "file\\\_type": "pdf",
+  "file\\\_size": 2048576,
   "analysis": {
-    "is_malicious": false,
+    "is\\\_malicious": false,
     "confidence": 0.98,
-    "risk_factors": [],
+    "risk\\\_factors": \\\[],
     "details": {
-      "has_macros": false,
-      "is_executable": false,
-      "mime_type_correct": true,
-      "scan_results": {
+      "has\\\_macros": false,
+      "is\\\_executable": false,
+      "mime\\\_type\\\_correct": true,
+      "scan\\\_results": {
         "virusTotal": {
-          "malicious_vendors": 0,
-          "suspicious_vendors": 0
+          "malicious\\\_vendors": 0,
+          "suspicious\\\_vendors": 0
         }
       }
     }
   },
-  "created_at": "2024-01-15T10:31:00Z"
+  "created\\\_at": "2024-01-15T10:31:00Z"
 }
 ```
 
@@ -475,77 +522,86 @@ email_id: 50 (optional)
 
 ## User Management Endpoints
 
-### 14. Get User Profile
+### 14\. Get User Profile
+
 ```
 GET /user/profile
 ```
 
 **Request Headers:**
+
 ```
-Authorization: Bearer {access_token}
+Authorization: Bearer {access\\\_token}
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "id": 1,
   "email": "user@example.com",
-  "first_name": "John",
-  "last_name": "Doe",
+  "first\\\_name": "John",
+  "last\\\_name": "Doe",
   "role": "user",
-  "is_active": true,
+  "is\\\_active": true,
   "stats": {
-    "total_analyses": 245,
-    "high_risk_emails": 23,
-    "avg_processing_time_ms": 350
+    "total\\\_analyses": 245,
+    "high\\\_risk\\\_emails": 23,
+    "avg\\\_processing\\\_time\\\_ms": 350
   },
-  "created_at": "2024-01-01T00:00:00Z",
-  "updated_at": "2024-01-15T10:00:00Z"
+  "created\\\_at": "2024-01-01T00:00:00Z",
+  "updated\\\_at": "2024-01-15T10:00:00Z"
 }
 ```
 
 ---
 
-### 15. Update User Profile
+### 15\. Update User Profile
+
 ```
 PUT /user/profile
 ```
 
 **Request Body:**
+
 ```json
 {
-  "first_name": "Jane",
-  "last_name": "Smith"
+  "first\\\_name": "Jane",
+  "last\\\_name": "Smith"
 }
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "id": 1,
   "email": "user@example.com",
-  "first_name": "Jane",
-  "last_name": "Smith",
-  "updated_at": "2024-01-15T12:00:00Z"
+  "first\\\_name": "Jane",
+  "last\\\_name": "Smith",
+  "updated\\\_at": "2024-01-15T12:00:00Z"
 }
 ```
 
 ---
 
-### 16. Change Password
+### 16\. Change Password
+
 ```
 POST /user/change-password
 ```
 
 **Request:**
+
 ```json
 {
-  "current_password": "old_password",
-  "new_password": "new_secure_password"
+  "current\\\_password": "old\\\_password",
+  "new\\\_password": "new\\\_secure\\\_password"
 }
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "message": "Password changed successfully"
@@ -554,21 +610,23 @@ POST /user/change-password
 
 ---
 
-### 17. Get User Statistics
+### 17\. Get User Statistics
+
 ```
 GET /user/statistics
 ```
 
 **Response (200 OK):**
+
 ```json
 {
-  "total_analyses": 245,
-  "analysis_by_risk": {
+  "total\\\_analyses": 245,
+  "analysis\\\_by\\\_risk": {
     "HIGH": 23,
     "MEDIUM": 65,
     "LOW": 157
   },
-  "analysis_by_date": [
+  "analysis\\\_by\\\_date": \\\[
     {
       "date": "2024-01-15",
       "count": 12
@@ -578,17 +636,17 @@ GET /user/statistics
       "count": 8
     }
   ],
-  "top_threats": [
+  "top\\\_threats": \\\[
     {
-      "threat_type": "credential_harvesting",
+      "threat\\\_type": "credential\\\_harvesting",
       "count": 45
     },
     {
-      "threat_type": "phishing",
+      "threat\\\_type": "phishing",
       "count": 32
     }
   ],
-  "avg_response_time_ms": 350
+  "avg\\\_response\\\_time\\\_ms": 350
 }
 ```
 
@@ -596,27 +654,29 @@ GET /user/statistics
 
 ## Threat Intelligence Endpoints
 
-### 18. Get Latest Threats
+### 18\. Get Latest Threats
+
 ```
 GET /threats/latest?limit=20
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "total": 1245,
-  "data": [
+  "data": \\\[
     {
       "id": 1,
-      "threat_type": "phishing_campaign",
+      "threat\\\_type": "phishing\\\_campaign",
       "severity": "HIGH",
       "description": "Bank impersonation campaign targeting EU users",
       "indicators": {
-        "domains": ["bank-verify.com", "bank-secure.net"],
-        "keywords": ["verify account", "confirm identity"]
+        "domains": \\\["bank-verify.com", "bank-secure.net"],
+        "keywords": \\\["verify account", "confirm identity"]
       },
-      "first_seen": "2024-01-10T00:00:00Z",
-      "last_seen": "2024-01-15T15:30:00Z",
+      "first\\\_seen": "2024-01-10T00:00:00Z",
+      "last\\\_seen": "2024-01-15T15:30:00Z",
       "count": 1234,
       "source": "community"
     }
@@ -627,35 +687,37 @@ GET /threats/latest?limit=20
 
 ---
 
-### 19. Get Threat Statistics
+### 19\. Get Threat Statistics
+
 ```
-GET /threats/statistics?from_date=2024-01-01&to_date=2024-01-15
+GET /threats/statistics?from\\\_date=2024-01-01\\\&to\\\_date=2024-01-15
 ```
 
 **Response (200 OK):**
+
 ```json
 {
-  "total_threats": 1245,
-  "severity_distribution": {
+  "total\\\_threats": 1245,
+  "severity\\\_distribution": {
     "CRITICAL": 12,
     "HIGH": 234,
     "MEDIUM": 567,
     "LOW": 432
   },
-  "threat_types": {
+  "threat\\\_types": {
     "phishing": 456,
     "malware": 234,
     "typosquatting": 123,
-    "ceo_fraud": 89
+    "ceo\\\_fraud": 89
   },
-  "trends": [
+  "trends": \\\[
     {
       "date": "2024-01-15",
-      "new_threats": 45,
-      "active_threats": 234
+      "new\\\_threats": 45,
+      "active\\\_threats": 234
     }
   ],
-  "geographic_distribution": {
+  "geographic\\\_distribution": {
     "US": 345,
     "EU": 234,
     "ASIA": 123
@@ -665,31 +727,34 @@ GET /threats/statistics?from_date=2024-01-01&to_date=2024-01-15
 
 ---
 
-### 20. Report New Threat
+### 20\. Report New Threat
+
 ```
 POST /threats/report
 ```
 
 **Request:**
+
 ```json
 {
-  "threat_type": "phishing_campaign",
+  "threat\\\_type": "phishing\\\_campaign",
   "severity": "HIGH",
   "description": "Bank impersonation email campaign",
   "indicators": {
-    "domains": ["suspicious-bank.com"],
-    "sender_patterns": ["noreply@*suspicious*"],
-    "keywords": ["verify account"]
+    "domains": \\\["suspicious-bank.com"],
+    "sender\\\_patterns": \\\["noreply@\\\*suspicious\\\*"],
+    "keywords": \\\["verify account"]
   }
 }
 ```
 
 **Response (201 Created):**
+
 ```json
 {
   "id": 1246,
   "message": "Threat reported successfully",
-  "verification_status": "pending"
+  "verification\\\_status": "pending"
 }
 ```
 
@@ -697,25 +762,27 @@ POST /threats/report
 
 ## Admin Endpoints
 
-### 21. Get All Users (Admin Only)
+### 21\. Get All Users (Admin Only)
+
 ```
-GET /admin/users?page=1&limit=20
+GET /admin/users?page=1\\\&limit=20
 ```
 
 **Response:**
+
 ```json
 {
   "total": 523,
-  "data": [
+  "data": \\\[
     {
       "id": 1,
       "email": "user@example.com",
       "role": "user",
-      "is_active": true,
-      "created_at": "2024-01-01T00:00:00Z",
+      "is\\\_active": true,
+      "created\\\_at": "2024-01-01T00:00:00Z",
       "stats": {
-        "total_analyses": 245,
-        "high_risk_emails": 23
+        "total\\\_analyses": 245,
+        "high\\\_risk\\\_emails": 23
       }
     }
     // ... more users
@@ -725,75 +792,82 @@ GET /admin/users?page=1&limit=20
 
 ---
 
-### 22. Get Platform Analytics (Admin Only)
+### 22\. Get Platform Analytics (Admin Only)
+
 ```
 GET /admin/analytics
 ```
 
 **Response:**
+
 ```json
 {
-  "total_users": 523,
-  "active_users": 412,
-  "total_analyses": 45234,
-  "total_high_risk": 3245,
-  "avg_response_time_ms": 345,
-  "model_performance": {
+  "total\\\_users": 523,
+  "active\\\_users": 412,
+  "total\\\_analyses": 45234,
+  "total\\\_high\\\_risk": 3245,
+  "avg\\\_response\\\_time\\\_ms": 345,
+  "model\\\_performance": {
     "accuracy": 0.96,
     "precision": 0.94,
     "recall": 0.93,
-    "f1_score": 0.935
+    "f1\\\_score": 0.935
   },
-  "system_health": {
-    "database_status": "healthy",
-    "cache_status": "healthy",
-    "api_uptime": 99.95
+  "system\\\_health": {
+    "database\\\_status": "healthy",
+    "cache\\\_status": "healthy",
+    "api\\\_uptime": 99.95
   }
 }
 ```
 
 ---
 
-### 23. Retrain Model (Admin Only)
+### 23\. Retrain Model (Admin Only)
+
 ```
 POST /admin/model/retrain
 ```
 
 **Response (202 Accepted):**
+
 ```json
 {
-  "job_id": "job_abc123",
+  "job\\\_id": "job\\\_abc123",
   "status": "queued",
-  "estimated_time_seconds": 3600,
+  "estimated\\\_time\\\_seconds": 3600,
   "message": "Model retraining job has been queued"
 }
 ```
 
 **Get Retraining Status:**
+
 ```
-GET /admin/model/retrain/{job_id}
+GET /admin/model/retrain/{job\\\_id}
 ```
 
 ---
 
-### 24. Get System Logs (Admin Only)
+### 24\. Get System Logs (Admin Only)
+
 ```
-GET /admin/logs?endpoint=/analyze/email&status_code=500&limit=100
+GET /admin/logs?endpoint=/analyze/email\\\&status\\\_code=500\\\&limit=100
 ```
 
 **Response:**
+
 ```json
 {
   "total": 234,
-  "data": [
+  "data": \\\[
     {
       "id": 1,
       "timestamp": "2024-01-15T10:30:00Z",
-      "user_id": 1,
+      "user\\\_id": 1,
       "endpoint": "/analyze/email",
       "method": "POST",
-      "status_code": 500,
-      "response_time_ms": 1234,
+      "status\\\_code": 500,
+      "response\\\_time\\\_ms": 1234,
       "error": "Database connection timeout"
     }
     // ... more logs
@@ -810,7 +884,7 @@ GET /admin/logs?endpoint=/analyze/email&status_code=500&limit=100
 ```json
 {
   "detail": "Error message",
-  "error_code": "VALIDATION_ERROR",
+  "error\\\_code": "VALIDATION\\\_ERROR",
   "timestamp": "2024-01-15T10:30:00Z"
 }
 ```
@@ -819,12 +893,12 @@ GET /admin/logs?endpoint=/analyze/email&status_code=500&limit=100
 
 | Code | Status | Description |
 |------|--------|-------------|
-| `VALIDATION_ERROR` | 400 | Input validation failed |
+| `VALIDATION\\\_ERROR` | 400 | Input validation failed |
 | `UNAUTHORIZED` | 401 | Missing or invalid token |
 | `FORBIDDEN` | 403 | User doesn't have permission |
-| `NOT_FOUND` | 404 | Resource not found |
-| `QUOTA_EXCEEDED` | 429 | User quota exceeded |
-| `INTERNAL_ERROR` | 500 | Server error |
+| `NOT\\\_FOUND` | 404 | Resource not found |
+| `QUOTA\\\_EXCEEDED` | 429 | User quota exceeded |
+| `INTERNAL\\\_ERROR` | 500 | Server error |
 
 ---
 
@@ -839,6 +913,7 @@ GET /admin/logs?endpoint=/analyze/email&status_code=500&limit=100
 | Enterprise | Unlimited | Unlimited | Unlimited |
 
 **Response Headers:**
+
 ```
 X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 45
@@ -850,10 +925,11 @@ X-RateLimit-Reset: 1705314600
 ## Pagination
 
 All list endpoints support:
-- `page`: Page number (1-indexed)
-- `limit`: Items per page (1-100, default: 20)
-- `sort_by`: Field to sort
-- `sort_order`: asc or desc
+
+* `page`: Page number (1-indexed)
+* `limit`: Items per page (1-100, default: 20)
+* `sort\\\_by`: Field to sort
+* `sort\\\_order`: asc or desc
 
 ---
 
@@ -874,3 +950,4 @@ All list endpoints support:
 ---
 
 Next: Folder structure ve configuration setup.
+
